@@ -1,0 +1,19 @@
+RequirePlugins
+==============
+
+Extends the plugin class to include a require_plugins method, you can then 
+specify what plugins are used by the plugin you are developing and preventing 
+the application from starting up
+
+
+Example
+=======
+
+install the plugin 
+
+    script/plugin install git://g
+
+
+
+
+Copyright (c) 2009 [name of plugin creator], released under the MIT license
