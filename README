@@ -1,9 +1,10 @@
 RequirePlugins
 ==============
 
-Extends the plugin class to include a require_plugins method, you can then 
-specify what plugins are used by the plugin you are developing and preventing 
-the application from starting up
+Extends the plugin class to include a require_plugins method. You can then 
+specify what plugins are used by the plugin you are developing and prevent 
+the application from starting up if the require plugins can't be found in 
+the vendor/plugins directory.
 
 
 Example
@@ -11,7 +12,47 @@ Example
 
 install the plugin 
 
-    script/plugin install git://g
+    script/plugin install git://github.com/neilchandler/require_plugins.git
+    
+modify your environment.rb file so that require_plugins plugin is loaded 
+before all other plugins.
+
+    config.plugins = [ :require_plugins, :all ]
+    
+Generate a couple of test plugin skeleton
+
+    script/generate plugin my_first_plugin
+    script/generate plugin my_second_plugin
+    
+In the plugin file my_first_plugin/init.rb add a plugin requirement
+
+    require_plugins :foo
+    
+Unless you actually have a plugin called foo the application will fail to 
+start with the following error message:
+
+    Required plugin missing: [my_first_plugin] requires [vendor/plugins/foo]
+
+Multiple plugins can be specified too
+
+    require_plugins :foo, :bar
+
+resulting in multiple error messages being generated.
+
+    Required plugin missing: [my_first_plugin] requires [vendor/plugins/foo]
+    Required plugin missing: [my_first_plugin] requires [vendor/plugins/bar]
+    
+The requirements for all plugins are checked before the application is stopped.
+Add a plugin requirement to my_second_plugin/init.rb
+
+    require_plugins :wibble
+    
+resulting in both original errors from my_first_plugin as well as the new 
+error from my_second_plugin
+
+    Required plugin missing: [my_first_plugin] requires [vendor/plugins/foo]
+    Required plugin missing: [my_first_plugin] requires [vendor/plugins/bar]
+    Required plugin missing: [my_second_plugin] requires [vendor/plugins/wibble]
 
 
 
