@@ -1,10 +1,10 @@
-RequirePlugins
+PluginRequirements
 ==============
 
-Extends the plugin class to include a require_plugins method. You can then 
-specify what plugins are used by the plugin you are developing and prevent 
-the application from starting up if the require plugins can't be found in 
-the vendor/plugins directory.
+Extends the plugin class to include a requirements method. You can then 
+specify what plugins or gems are used by the plugin you are developing and 
+prevent the application from starting up if the required resource can't be 
+found.
 
 
 Example
@@ -12,12 +12,12 @@ Example
 
 install the plugin 
 
-    script/plugin install git://github.com/neilchandler/require_plugins.git
+    script/plugin install git://github.com/neilchandler/plugin_requirements.git
     
-modify your environment.rb file so that require_plugins plugin is loaded 
+modify your environment.rb file so that plugin_requirements plugin is loaded 
 before all other plugins.
 
-    config.plugins = [ :require_plugins, :all ]
+    config.plugins = [ :plugin_requirements, :all ]
     
 Generate a couple of test plugin skeleton
 
@@ -26,7 +26,7 @@ Generate a couple of test plugin skeleton
     
 In the plugin file my_first_plugin/init.rb add a plugin requirement
 
-    require_plugins :foo
+    requirements :foo
     
 Unless you actually have a plugin called foo the application will fail to 
 start with the following error message:
@@ -35,9 +35,9 @@ start with the following error message:
 
 Multiple plugins can be specified too
 
-    require_plugins :foo, :bar
+    requirements :foo, :bar
 
-resulting in multiple error messages being generated.
+resulting in multiple error messages being generated, if neither plugin is found.
 
     Required plugin missing: [my_first_plugin] requires [vendor/plugins/foo]
     Required plugin missing: [my_first_plugin] requires [vendor/plugins/bar]
@@ -45,7 +45,7 @@ resulting in multiple error messages being generated.
 The requirements for all plugins are checked before the application is stopped.
 Add a plugin requirement to my_second_plugin/init.rb
 
-    require_plugins :wibble
+    requirements :wibble
     
 resulting in both original errors from my_first_plugin as well as the new 
 error from my_second_plugin
@@ -57,4 +57,4 @@ error from my_second_plugin
 
 
 
-Copyright (c) 2009 [name of plugin creator], released under the MIT license
+Copyright (c) 2009 Neil Chandler, released under the MIT license

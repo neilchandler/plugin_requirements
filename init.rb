@@ -1,6 +1,6 @@
 # Include hook code here
-require 'require_plugins'
+require 'plugin_requiements'
 
 config.after_initialize {
-  Rails::Plugin.required_plugins_errors
+  Rails::Plugin.requirement_errors
 }
